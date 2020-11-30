@@ -1028,7 +1028,6 @@ int main() {
 
 	/*
 	char * trigger_transaction = "create trigger transaction_buy after update on item for each row begin if new.most_recent_bid_price >= new.buy_it_now_price then insert into Transaction(i_id, seller, sold_date, sold_price) values(new.i_id, new.u_id, now(), new.most_recent_bid_price); end if; end;";
-	//char * trigger_transaction = "DELIMITER //  \n create trigger transaction_bid_end after insert on item for each row begin var if new.most_recent_bid_price = buy_it_now_price then insert into Transaction(i_id, seller, sold_date, sold_price) values(new.i_id, new.u_id, new(), new.most_recent_bid_price); end if; end; // DELIMITER ;";
 	char * trigger_bid = "create trigger bid_money before update on item for each row begin if new.most_recent_bid_price < (select * from (select most_recent_bid_price from item where i_id=new.i_id) as W) then SIGNAL SQLSTATE '02000' SET MESSAGE_TEXT = 'Warning: you have to bid more money';end if; end;";
 
 	if (mysql_query(conn, trigger_transaction)) {
