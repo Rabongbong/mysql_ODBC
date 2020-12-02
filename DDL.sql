@@ -8,6 +8,24 @@ create table Watch_list( u_id	int, i_id	int, primary key (u_id, i_id), foreign k
 
 create table bid_history(u_id	int, i_id int, bid_price numeric(8,0), primary key (i_id, bid_price), foreign key (u_id) references User(u_id) on delete cascade, foreign key (i_id) references item(i_id)on delete cascade);
 
-create trigger transaction_buy after update on item for each row begin if new.most_recent_bid_price >= new.buy_it_now_price then insert into Transaction(i_id, seller, sold_date, sold_price) values(new.i_id, new.u_id, now(), new.most_recent_bid_price); end if; end;
 
-create trigger bid_money before update on item for each row begin if new.most_recent_bid_price < (select * from (select most_recent_bid_price from item where i_id=new.i_id) as W) then SIGNAL SQLSTATE '02000' SET MESSAGE_TEXT = 'Warning: you have to bid more money';end if; end;
+
+DELIMITER // 
+create trigger transaction_buy after update on item 
+for each row 
+begin 
+if new.most_recent_bid_price >= new.buy_it_now_price 
+then insert into Transaction(i_id, seller, sold_date, sold_price) values(new.i_id, new.u_id, now(), new.most_recent_bid_price); 
+end if; 
+end;// 
+DELIMITER ;
+
+DELIMITER // 
+create trigger bid_money before update on item 
+for each row 
+begin 
+if new.most_recent_bid_price < (select * from (select most_recent_bid_price from item where i_id=new.i_id) as W) 
+then SIGNAL SQLSTATE '02000' SET MESSAGE_TEXT = 'Warning: you have to bid more money';
+end if;
+end;// 
+DELIMITER ;

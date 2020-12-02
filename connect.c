@@ -86,7 +86,6 @@ void bid_history(char * price, int i_id){
 void Watched(int * item, int num_row){  //insert into Watch_list
 
 	char * query = (char *)malloc(sizeof(char) *100);
-	printf("%d", num_row);
 	for(int i=0; i<num_row; i++){
 		sprintf(query, "insert ignore into Watch_list(u_id, i_id) values(%d, %d);", u_id, item[i]);
 		if (mysql_query(conn, query)) {
@@ -139,8 +138,6 @@ void Search_category(){
 
 	res = mysql_store_result(conn);
 	num_row = mysql_num_rows(res);
-	printf("%d", num_row);
-
 
 	item = (int *)malloc(sizeof(int) * num_row);
 	printf("----< Search results: Category >\n");
@@ -201,7 +198,6 @@ void Search_keyword(){
 
 	res = mysql_store_result(conn);
 	num_row = mysql_num_rows(res);
-	printf("%d", num_row);
 
 	item = (int *)malloc(sizeof(int) * num_row);
 	printf("----< Search results: keyword search >\n");
@@ -261,7 +257,6 @@ void Search_seller(){
 
 	res = mysql_store_result(conn);
 	num_row = mysql_num_rows(res);
-	printf("%d", num_row);
 
 	item = (int *)malloc(sizeof(int) * num_row);
 	printf("----< Search results: keyword search >\n");
@@ -1000,7 +995,7 @@ void first_page(int a){    //first_page
 			admin_page();
 		}
 		else{
-			printf("---- Your not admin\n");
+			printf("---- You are not admin\n");
 		}
 	}
 	free(email);
@@ -1024,7 +1019,7 @@ int main() {
 		fprintf(stderr, "%s\n", mysql_error(conn));
 		exit(1);
 	}
-	
+
 	bid_ending();
 
 	while(1){
