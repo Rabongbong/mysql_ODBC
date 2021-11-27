@@ -1008,7 +1008,7 @@ int main() {
 	/* set database information*/
 	char *server = "localhost";
 	char *user = "db16314167";
-	char *password = "yang7769!!"; 
+	char *password = "bongbong!@#$"; 
 	char *database = "db16314167";
 
 	conn = mysql_init(NULL);
